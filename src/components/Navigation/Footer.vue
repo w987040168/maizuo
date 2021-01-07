@@ -5,10 +5,10 @@
             <van-icon class-prefix="iconfont icon-dianying" slot="icon" size="1.2rem"/><span>电影</span>
         </van-tabbar-item>
         <van-tabbar-item >
-            <van-icon class-prefix="iconfont icon-yingyuan" slot="icon" size="1.2rem"/><span>影</span>
+            <van-icon class-prefix="iconfont icon-yingyuan" slot="icon" size="1.2rem"/><span>影院</span>
         </van-tabbar-item>
         <van-tabbar-item >
-            <van-icon class-prefix="iconfont icon-wode" slot="icon" size="1.2rem"/><span>电影</span>
+            <van-icon class-prefix="iconfont icon-wode" slot="icon" size="1.2rem"/><span>我的</span>
         </van-tabbar-item>
 
         </van-tabbar>

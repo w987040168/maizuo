@@ -7,18 +7,21 @@ Vue.use(VueRouter)
 import filmRouter from './routes/film'
 import cinemaRouter from './routes/cinema'
 import centerRouter from './routes/center'
-
-
+import VuexCmp from '@/views/Vuex'
+import Login from './routes/login'
 const routes = [
     {
         path:'/',
         redirect: '/films/nowPlaying'
     },
-    
+    {
+        path:'/vuex',
+        component : VuexCmp
+    },
     ...filmRouter,
     cinemaRouter,
     centerRouter,
-   
+    Login,
    
 //   {
 //     path: '/about',

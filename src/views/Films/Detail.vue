@@ -37,13 +37,16 @@ Vue.use(VueLazyload,{
     loading : 'https://2url.cc/1OwrB'
 })
 
-
+import {mapMutations} from 'vuex'
 import uri from '@/config/uri'
 export default {
     data(){
         return {
             filmInfo:{actors:[]}
         }
+    },
+    methods:{
+        ...mapMutations('global',['setFooter'])
     },
     components: {
         Actors
@@ -58,11 +61,15 @@ export default {
                 Toast.fail(ret.msg);
             }
         })
+        this.setFooter(false)
     },
     filters:{
         parserPremiereAt(time){
             return moment(time * 1000).format('YYYY-MM-DD')
         }
+    },
+    beforeDestroy(){
+        this.setFooter(true)
     }
 }
 </script>

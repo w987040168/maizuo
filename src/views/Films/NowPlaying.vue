@@ -1,10 +1,15 @@
 <template>
-    <div>
+    <div class="conter">
+        <van-pull-refresh
+            v-model="isLoading2"
+            success-text="刷新成功"
+            @refresh="onRefresh"
+            >
         <div class="loading" v-show="isLoading">
             <van-loading size="24px" type="spinner">加载中...</van-loading>
 
         </div>
-        <van-card v-for="item in list" :key="item.filmId">
+        <van-card v-for="item in list" :key="item.filmId" @click="goDetail(item.filmId)">
              <template #thumb>
                 <img :src="item.poster" width="66">
             </template>
@@ -33,22 +38,50 @@
             </template>
             
         </van-card>
+        </van-pull-refresh>
     </div>
 </template>
 <script>
 import uri from '@/config/uri'
 import Vue from 'vue';
-import {Loading , Toast,Card } from 'vant';
+import {Loading , Toast,Card ,PullRefresh  } from 'vant';
 
 
 Vue.use(Loading);
 Vue.use(Card);
 Vue.use(Toast);
+Vue.use(PullRefresh );
 export default {
     data(){
         return{
+            isLoading2:false,
             isLoading:true,
             list : [],
+            pageNum: 1,
+        }
+    },
+    methods:{
+        onRefresh(){
+            this.getData()
+        },
+        getData() {
+            this.$http.get(uri.getNowPlaying + '?pageNum=' + this.pageNum).then(ret => {
+            if (ret.status === 0) {
+                if (this.pageNum <= Math.ceil(ret.data.total / 10)){
+                    this.list = [...ret.data.films,...this.list]
+                    this.pageNum++
+                }
+                
+            } else {
+                Toast.fail("网络繁忙")
+            }
+            this.isLoading = false
+            this.isLoading2 = false
+           
+        })
+        },
+        goDetail(id){
+            this.$router.push('/film/' + id)
         }
     },
     filters:{
@@ -65,15 +98,7 @@ export default {
         }
     },
     created () {
-        this.$http.get(uri.getNowPlaying).then(ret => {
-            if (ret.status === 0) {
-                this.list = ret.data.films
-            } else {
-                Toast.fail("网络繁忙")
-            }
-            this.isLoading = false
-            console.log(ret);
-        })
+        this.getData()
     }
 }
 </script>
@@ -81,8 +106,7 @@ export default {
     .loading{
         text-align: center;
     }
-    
-        
+       
     img{
         border-radius: 0;
     }
@@ -119,5 +143,12 @@ export default {
         position: absolute;
         top: 0;
         right: 0;
+    }
+    .van-card__thumb {
+        width: 66px;    
+        height: 92px;
+    }
+    .conter{
+        margin-bottom: 50px;
     }
 </style>

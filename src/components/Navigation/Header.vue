@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <van-tabs @click="onClick" v-model="active" line-width="55px">
+    <div :class="{header : isSticky}">
+        <van-tabs @click="onClick" v-model="active" line-width="55px" >
             <van-tab  title="正在热映"></van-tab>
             <van-tab title="即将上映"></van-tab>
         </van-tabs>
@@ -16,7 +16,8 @@ export default {
     data(){
         return {
             active:0,
-            urls:['/films/nowPlaying','/films/comingSoon']
+            urls:['/films/nowPlaying','/films/comingSoon'],
+            isSticky:false,
         }
     },
     methods: {
@@ -26,6 +27,23 @@ export default {
     },
     created () {
         this.active = this.urls.indexOf(this.$route.path)
+    },
+    mounted(){
+        window.addEventListener('scroll',() => {
+            let scrollTop = document.documentElement.scrollTop
+            if (scrollTop >= 150) {
+                this.isSticky = true
+            } else {
+                this.isSticky = false
+            }
+        })
     }
 }
 </script>
+<style lang="scss" scoped>
+    .header{
+        position: fixed;
+        z-index: 99;
+        width: 100%;
+    }
+</style>

@@ -9,6 +9,7 @@ import cinemaRouter from './routes/cinema'
 import centerRouter from './routes/center'
 import VuexCmp from '@/views/Vuex'
 import Login from './routes/login'
+import City from '@/views/City/Index'
 const routes = [
     {
         path:'/',
@@ -17,6 +18,10 @@ const routes = [
     {
         path:'/vuex',
         component : VuexCmp
+    },
+    {
+        path:'/city',
+        component: City
     },
     ...filmRouter,
     cinemaRouter,

@@ -1,86 +1,70 @@
 <template>
     <div>
         <div class="logo">
-            <img src="https://assets.maizuo.com/h5/mz-auth/public/app/img/logo.19ca0be.png">
+            <img src="https://2url.cc/1OwrB" />
         </div>
-        <van-form @submit="onSubmit">
-        <van-field
-            class="form-group"
-            v-model="username"
-            name="用户名"
-            label="用户名"
-            placeholder="用户名"
-            :rules="[{ required: true, message: '请填写用户名' }]"
-        />
-        <van-field
-        class="form-group"
-            v-model="password"
-            type="password"
-            name="密码"
-            label="密码"
-            placeholder="密码"
-            :rules="[{ required: true, message: '请填写密码' }]"
-        />
-        <div style="margin: 16px;" class="submit login-btn van-button--info">
-            <van-button round block type="info" native-type="submit">提交</van-button>
+        <div>
+            <van-form @submit="onSubmit">
+                <van-field
+                    v-model="mobile"
+                    name="mobile"
+                    label="手机号"
+                    placeholder="手机号"
+                    :rules="[{ pattern, message: '请填写正确的手机号' }]"
+                />
+                <van-field
+                    v-model="password"
+                    type="password"
+                    name="password"
+                    label="密码"
+                    placeholder="密码"
+                    :rules="[{ required: true, message: '请填写密码' }]"
+                />
+                <div style="margin: 16px;">
+                    <van-button square block type="info" native-type="submit"
+                        >提交</van-button
+                    >
+                </div>
+            </van-form>
         </div>
-        </van-form>
     </div>
 </template>
+
 <script>
-import Vue from 'vue';
-import { Form ,field, button} from 'vant';
+import Vue from "vue";
+import { Form, Field, Button, Toast } from "vant";
 
 Vue.use(Form);
-Vue.use(field);
-Vue.use(button);
+Vue.use(Field);
+Vue.use(Button);
+Vue.use(Toast);
 export default {
-    data () {
+    data() {
         return {
-            username:'',
-            password:'',
-
-        }
+            mobile: "",
+            password: "",
+            pattern: /^1[3-9]\d{9}$/,
+        };
     },
     methods: {
-        onSubmit(){
+        onSubmit(values) {            
+            console.log("submit", values);
+        },
+    },
+    created() {
+        this.$store.commit("global/setFooter", false);
+    },
 
-        }
-    }
-}
+    beforeDestroy() {
+        this.$store.commit("global/setFooter", true);
+    },
+};
 </script>
 
 <style lang="scss" scoped>
-.logo{
-    margin: 79px auto 40px;
+.logo {
+    margin-top: 150px;
+    margin-bottom: 100px;
     text-align: center;
-    height: 60px;
-    line-height: 60px;
-    img{
-        height: 60px;
-    }
 }
-</style>
-<style lang="scss" scoped>
-    .form-group{
-        line-height: 55px;
-    margin: 0 25px;
-    position: relative;
-    }
-    .submit  {
-        
-    line-height: 45px;
-    font-size: 16px;
-    margin: 70px 25px 0;
-    border-radius: 3px;
-    text-align: center;
-    background-color: #ff5f16;
-    height: 44px;
-    color: #fff;
-    border: none;
-    }
-    .van-button--info {
-        background-color: #ff5f16;
-        border: 0;
-    }
 </style>
